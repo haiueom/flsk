@@ -1,11 +1,11 @@
 from flask import Flask, jsonify, request, render_template
 from pymongo import MongoClient
 from bson import ObjectId
-import json, random
+import json, random, os
 
 app = Flask(__name__)
-client = MongoClient('mongodb://localhost:27017')
-db = client['produk_digital']
+client = MongoClient(os.environ.get('mongodb'))
+db = client['produk-digital']
 collection = db['products']
 
 @app.route('/')
