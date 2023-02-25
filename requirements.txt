@@ -1,2 +1,2 @@
-Flask
-pymongo
+Flask==2.2.2
+pymongo==4.3.3
