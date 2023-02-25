@@ -4,7 +4,7 @@ from bson import ObjectId
 import json, random, os
 
 app = Flask(__name__)
-client = MongoClient(os.environ.get('mongodb'))
+client = MongoClient(os.environ.get('MONGODB'))
 db = client['produk-digital']
 collection = db['products']
 
