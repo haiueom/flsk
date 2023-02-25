@@ -5,7 +5,7 @@ import json, random, os
 
 app = Flask(__name__)
 client = MongoClient(os.environ.get('MONGODB'))
-db = client['produk-digital']
+db = client['produk_digital']
 collection = db['products']
 
 @app.route('/')
