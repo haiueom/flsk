@@ -1,8 +1,8 @@
 {
     "build": {
-        "command": "python app.py"
+        "command": "flask run"
     },
     "dev": {
-        "command": "python app.py"
+        "command": "flask run"
     }
 }
