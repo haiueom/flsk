@@ -4,7 +4,10 @@ from bson import ObjectId
 import json, random, os
 
 app = Flask(__name__)
+# kalo di vercel
 client = MongoClient(os.environ.get('MONGODB_URI'))
+# kalo di local
+# client = MongoClient("localhost", 27017)
 db = client['produk_digital']
 collection = db['products']
 
@@ -29,7 +32,10 @@ def get_api_products():
             'image': product['image'],
             'price': product['price']
         })
-    return jsonify({'products': products})
+    return jsonify({
+        'total': len(products),
+        'products': products
+        } )
 
 @app.route('/api/product/<id>', methods=['GET'])
 def get_product(id):
@@ -50,7 +56,7 @@ def add_product():
     product = {
         'name': request.json['name'],
         'description': request.json['description'],
-        'image': product['image'],
+        'image': request.json['image'],
         'price': request.json['price']
     }
     result = collection.insert_one(product)
@@ -70,7 +76,7 @@ def update_product(id):
         collection.update_one({'_id': ObjectId(id)}, {'$set': {
             'name': request.json['name'],
             'description': request.json['description'],
-            'image': product['image'],
+            'image': request.json['image'],
             'price': request.json['price']
         }})
         updated_product = collection.find_one({'_id': ObjectId(id)})
