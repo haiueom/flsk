@@ -55,18 +55,21 @@ def get_product(id):
 def add_product():
     product = {
         'name': request.json['name'],
-        'description': request.json['description'],
-        'image': request.json['image'],
+        'description': request.json['desc'],
+        'image': request.json['img'],
         'price': request.json['price']
     }
     result = collection.insert_one(product)
     new_product = collection.find_one({'_id': result.inserted_id})
     return jsonify({
-        '_id': str(new_product['_id']),
-        'name': new_product['name'],
-        'description': new_product['description'],
-        'image': new_product['image'],
-        'price': new_product['price']
+        'message': 'Product added',
+        'product': {
+            '_id': str(new_product['_id']),
+            'name': new_product['name'],
+            'description': new_product['description'],
+            'image': new_product['image'],
+            'price': new_product['price']
+        }
     })
 
 @app.route('/api/product/<id>', methods=['PUT'])
@@ -75,17 +78,20 @@ def update_product(id):
     if product:
         collection.update_one({'_id': ObjectId(id)}, {'$set': {
             'name': request.json['name'],
-            'description': request.json['description'],
-            'image': request.json['image'],
+            'description': request.json['desc'],
+            'image': request.json['img'],
             'price': request.json['price']
         }})
         updated_product = collection.find_one({'_id': ObjectId(id)})
         return jsonify({
-            '_id': str(updated_product['_id']),
-            'name': updated_product['name'],
-            'description': updated_product['description'],
-            'image': updated_product['image'],
-            'price': updated_product['price']
+            'message': 'Product updated',
+            'product': {
+                '_id': str(updated_product['_id']),
+                'name': updated_product['name'],
+                'description': updated_product['description'],
+                'image': updated_product['image'],
+                'price': updated_product['price']
+            }
         })
     else:
         return jsonify({'error': 'Product not found'})
